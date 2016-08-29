@@ -1,0 +1,27 @@
+	
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Unidades Académicas - Uniandes</div>
+    <div class="panel-body">
+        <table class="resultados table table-striped">
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Unidad Académica
+                </th>
+                <th>
+                    Eventos
+                </th>
+            </tr>
+            <tr ng-repeat="row in lista">
+                <td class="row">{{row.id}}</td>
+                <td class="row"><a target="_blank" href="{{row.url}}">{{row.nombre}}</a></td>
+                <td class="row"><a href="Evento.html#/?ua={{row.id}}">Ver</a></td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+</div>
+
+

@@ -1,0 +1,95 @@
+			
+<div class="panel panel-primary" ng-hide="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Feeds</div>
+    <div class="panel-body">
+        <table class="resultados table table-striped">
+            <tr>
+                <th>
+                    categoria
+                </th>				<th>
+                    fuente
+                </th>				<th>
+                    titulo
+                </th>				<th>
+                    url
+                </th>				<th>
+                    publicado
+                </th>
+            </tr>
+            <tr ng-repeat="row in lista">
+                <td class="row">{{row.categoria}}</td>
+                <td class="row">{{row.fuente}}</td>
+                <td class="row">{{row.titulo}}</td>
+                <td class="row">{{row.url}}</td>
+                <td class="row">{{row.publicado}}</td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="panelEditar">
+    <div class="panel-heading">Parametrizaci&oacute;n de Feeds</div>
+    <div class="panel-body">
+        <form role="form" id="formularioEditar">
+            <div class="row">
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label for="categoria">categoria</label>
+                    <input id="categoria" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.categoria"
+                           placeholder="categoria"/>
+                    <div ng-show="errores.categoria">{{errores.categoria}}</div>
+                </div>
+            </div>				<div class="row">
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label for="fuente">fuente</label>
+                    <input id="fuente" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.fuente"
+                           placeholder="fuente"/>
+                    <div ng-show="errores.fuente">{{errores.fuente}}</div>
+                </div>
+            </div>				<div class="row">
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label for="titulo">titulo</label>
+                    <input id="titulo" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.titulo"
+                           placeholder="titulo"/>
+                    <div ng-show="errores.titulo">{{errores.titulo}}</div>
+                </div>
+            </div>				<div class="row">
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label for="url">url</label>
+                    <input id="url" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.url"
+                           placeholder="url"/>
+                    <div ng-show="errores.url">{{errores.url}}</div>
+                </div>
+            </div>				<div class="row">
+                <div class="form-group col-md-6" ng-class="errores.idAseg ? 'error' : ''">
+                    <label for="publicado">publicado</label>
+                    <input id="publicado" 
+                           class="form-control" 
+                           type="text"
+                           ng-model="datosFormulario.publicado"
+                           placeholder="publicado"/>
+                    <div ng-show="errores.publicado">{{errores.publicado}}</div>
+                </div>
+            </div> 
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click="guardar()" ng-show="nuevoRegistro">Guardar</button>
+                <button type="button" class="btn btn-default" ng-click="guardar()" ng-show="!nuevoRegistro">Aceptar</button>
+                <button type="button" class="btn btn-default" ng-click="cancelar()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
