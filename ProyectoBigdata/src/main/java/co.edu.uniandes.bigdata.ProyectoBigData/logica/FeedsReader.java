@@ -11,11 +11,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.xml.xquery.XQConnection;
 import javax.xml.xquery.XQDataSource;
 import javax.xml.xquery.XQException;
@@ -76,25 +79,19 @@ public class FeedsReader {
         return PATH_FOLDER + xmlName + ".xq";
     }
 
-    private void loadXmlFeed(String xmlCategory, String xmlSource, String xmlUrl) {
-        try {
 
-            URL url = new URL(xmlUrl);
-            String xmlName = getXMLName(xmlCategory, xmlSource);
-            File file = new File(getXMLPath(xmlName));
-            org.apache.commons.io.FileUtils.copyURLToFile(url, file);
-
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(FeedsReader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FeedsReader.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    /**
+     * Limpia los titulos de valores no deseados como los retornados por el HuffingtonPost
+     */
+    private String cleanTitle(String title) {
+        return title.replace("<![CDATA[", "").replace("]]>", "");
     }
 
     private List<Feed> filterXquery(String category, String source, String property, String filterText, boolean excludes) throws IOException, XQException {
-        
+
         String fileName = getXMLName(category, source);
-        
+        String xmlPath = getXMLPath(fileName);
+
         String exclude_xquery_strg_ini = "";
         String exclude_xquery_strg_end = "";
         if (excludes) {
@@ -102,18 +99,17 @@ public class FeedsReader {
             exclude_xquery_strg_end = ")";
         }
 
-        String xml_file = getXMLPath(fileName);
         String xq_query = "";
 
         if (property.equals("title_description")) { // create xQuery looking for title and description
-            xq_query += "for $item in doc(\"" + xml_file + "\")/rss/channel/item\n";
+            xq_query += "for $item in doc(\"" + xmlPath + "\")/rss/channel/item\n";
             xq_query += "where " + exclude_xquery_strg_ini
                     + "contains(upper-case($item/title),upper-case(\"" + filterText + "\"))"
                     + " or contains(upper-case($item/description),upper-case(\"" + filterText + "\"))"
                     + exclude_xquery_strg_end + "\n";
             xq_query += "return concat($item/data(title), '|', $item/data(pubDate), '|', $item/data(link))\n\n";
         } else { // create xQuery for property
-            xq_query += "for $item in doc(\"" + xml_file + "\")/rss/channel/item\n";
+            xq_query += "for $item in doc(\"" + xmlPath + "\")/rss/channel/item\n";
             xq_query += "where " + exclude_xquery_strg_ini
                     + "contains(upper-case($item/title),upper-case(\"" + filterText + "\"))"
                     + exclude_xquery_strg_end + "\n";
@@ -121,29 +117,66 @@ public class FeedsReader {
         }
 
         // create xq file for evidence
-        /*File file = new File(getXQPath(fileName));
+        File file = new File(getXQPath(fileName));
         FileWriter out = new FileWriter(file);
         out.write(xq_query);
-        out.close();*/
-        
+        out.close();
+
         // executes XQuery
         XQDataSource ds = new SaxonXQDataSource();
         XQConnection conn = ds.getConnection();
         XQPreparedExpression exp = conn.prepareExpression(xq_query);
         XQResultSequence result = exp.executeQuery();
-        
+
         // creates feeds List splitting values from xq result
         List<Feed> feeds = new ArrayList<>();
-        
+
         while (result.next()) {
             String feedText = result.getItemAsString(null);
             String[] feed = feedText.split("\\|");
             String title = feed[0], pubDate = feed[1], urlLink = feed[2];
-            feeds.add(new Feed(category, source, title, urlLink, pubDate));
+            feeds.add(new Feed(category, source, cleanTitle(title), urlLink, pubDate));
         }
-        
+
         return feeds;
 
+    }
+
+    private List<Feed> filterRegex(String category, String source, String filterText, boolean excludes) throws IOException {
+
+        File xmlFile = new File(getXMLPath(getXMLName(category, source)));
+
+        String xmlString = readFileToString(xmlFile, StandardCharsets.UTF_8);
+
+        // Get information inside Items
+        Pattern regexItems = Pattern.compile("<item>[\\s\\S]*?<\\/item>");
+        Matcher mItems = regexItems.matcher(xmlString);
+
+        xmlString = "";
+        while (mItems.find()) {
+            xmlString += mItems.group(0);
+        }
+
+        // Get information inside titles
+        Pattern regexTitles = Pattern.compile("(?:<title>)(.+)(?:<\\/title>)");
+        Matcher mTitles = regexTitles.matcher(xmlString);
+
+        // creates feeds List splitting values from regex result
+        List<Feed> feeds = new ArrayList<>();
+
+        while (mTitles.find()) {
+            String title = mTitles.group(1);
+
+            if (excludes) {
+                if (!title.contains(filterText) || filterText == null) {
+                    feeds.add(new Feed(category, source, cleanTitle(title), null, null));
+                }
+            } else if (title.contains(filterText) || filterText == null) {
+                feeds.add(new Feed(category, source, cleanTitle(title), null, null));
+            }
+        }
+
+        return feeds;
     }
 
     public void updateFeeds() {
@@ -165,17 +198,31 @@ public class FeedsReader {
         return feedsAvailable;
     }
 
+    public List<Feed> filterFeedsRegex(String category, String filterText, boolean excludes) throws IOException, XQException {
+
+        feedsAvailable = new ArrayList<>();
+
+        for (String[] feed : URLS) {
+            if (feed[CATEGORY].equals(category) || category.equals(ALL_CATEGORIES)) {
+                feedsAvailable.addAll(filterRegex(feed[CATEGORY], feed[SOURCE], filterText, excludes));
+            }
+        }
+
+        return feedsAvailable;
+    }
+
     @SuppressWarnings("CallToPrintStackTrace")
     public static void main(String[] args) throws MalformedURLException, IOException, XQException {
 
         FeedsReader test = new FeedsReader();
         test.updateFeeds();
-        List<Feed> feeds = test.filterFeedsXquery(ALL_CATEGORIES, "title", "the ", false);
+        //List<Feed> feeds = test.filterFeedsXquery(ALL_CATEGORIES, "title", "the ", false);
+        List<Feed> feeds = test.filterFeedsRegex(ALL_CATEGORIES, "the ", true);
 
         for (Iterator<Feed> iterator = feeds.iterator(); iterator.hasNext();) {
             System.out.println(iterator.next().getTitle());
         }
-        
+
     }
     
     
