@@ -24,14 +24,14 @@ import javax.xml.xquery.XQDataSource;
 import javax.xml.xquery.XQException;
 import javax.xml.xquery.XQPreparedExpression;
 import javax.xml.xquery.XQResultSequence;
-
+import static org.apache.commons.io.FileUtils.readFileToString;
 
 /**
  *
  * @author Rodrigo B
  */
 public class FeedsReader {
-    
+
     public static final String[] categories = {"Business", "Tech", "World"};
     public static final String ALL_CATEGORIES = "All";
     public static final int BUSINESS = 0;
@@ -56,7 +56,7 @@ public class FeedsReader {
     public static final int URL = 2;
 
     private static final String PATH_FOLDER = System.getProperty("java.io.tmpdir").replaceAll("\\\\", "/");
-    
+
     private List<Feed> feedsAvailable = null;
 
     public List<Feed> getFeedsAvailable() {
@@ -66,7 +66,7 @@ public class FeedsReader {
     public void setFeedsAvailable(List<Feed> feedsAvailable) {
         this.feedsAvailable = feedsAvailable;
     }
-    
+
     public static String getXMLName(String xmlCategory, String xmlSource) {
         return xmlCategory + "_" + xmlSource;
     }
@@ -79,9 +79,24 @@ public class FeedsReader {
         return PATH_FOLDER + xmlName + ".xq";
     }
 
+    private void loadXmlFeed(String xmlCategory, String xmlSource, String xmlUrl) {
+        try {
+
+            URL url = new URL(xmlUrl);
+            String xmlName = getXMLName(xmlCategory, xmlSource);
+            File file = new File(getXMLPath(xmlName));
+            org.apache.commons.io.FileUtils.copyURLToFile(url, file);
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(FeedsReader.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FeedsReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
-     * Limpia los titulos de valores no deseados como los retornados por el HuffingtonPost
+     * Limpia los titulos de valores no deseados como los retornados por el
+     * HuffingtonPost
      */
     private String cleanTitle(String title) {
         return title.replace("<![CDATA[", "").replace("]]>", "");
@@ -224,6 +239,5 @@ public class FeedsReader {
         }
 
     }
-    
-    
+
 }
