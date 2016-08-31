@@ -239,8 +239,8 @@ public class FeedsReader {
 
         FeedsReader test = new FeedsReader();
         test.updateFeeds();
-        //List<Feed> feeds = test.filterFeedsXquery(ALL_CATEGORIES, "title", "the ", false);
-        List<Feed> feeds = test.filterFeedsRegex(ALL_CATEGORIES, "the ", true);
+        List<Feed> feeds = test.filterFeedsXquery(ALL_CATEGORIES, "title_description", "money", false);
+        //List<Feed> feeds = test.filterFeedsRegex(ALL_CATEGORIES, "the ", true);
 
         for (Iterator<Feed> iterator = feeds.iterator(); iterator.hasNext();) {
             System.out.println(iterator.next().getTitle());

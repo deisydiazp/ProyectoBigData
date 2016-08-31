@@ -20,36 +20,6 @@ public class FeedsServicio {
 
     @EJB
     private FeedsLogica logica;
-
-    private boolean filtroExcluyeTexto;
-
-    private String filtroFeed;
-    
-    private String metodoFiltro;
-
-    public String getMetodoFiltro() {
-        return metodoFiltro;
-    }
-
-    public void setMetodoFiltro(String metodoFiltro) {
-        this.metodoFiltro = metodoFiltro;
-    }   
-
-    public boolean isFiltroExcluyeTexto() {
-        return filtroExcluyeTexto;
-    }
-
-    public void setFiltroExcluyeTexto(boolean filtroIncluyeTexto) {
-        this.filtroExcluyeTexto = filtroIncluyeTexto;
-    }
-
-    public String getFiltroFeed() {
-        return filtroFeed;
-    }
-
-    public void setFiltroFeed(String filtroFeed) {
-        this.filtroFeed = filtroFeed;
-    }
     
     /**
      * @generated
@@ -64,9 +34,12 @@ public class FeedsServicio {
      */
     @POST
     @Path("/filtro")
-    // en parámetros función: @PathParam("categoria") String categoria  ¿? 
     public List<FeedsDTO> filtrarFeeds(FiltroFeedsDTO filtro ) {
-        return logica.obtenerPorFiltro(filtro.getCategoria(), filtro.getFiltroFeed(), filtro.getTexto(), filtro.isExcluyente());
+        if(filtro.getMetodo().equals("Regex")){
+            return logica.obtenerPorFiltroRegex(filtro.getCategoria(), filtro.getTexto(), filtro.isExcluyente());
+        }else {
+            return logica.obtenerPorFiltro(filtro.getCategoria(), filtro.getFiltroFeed(), filtro.getTexto(), filtro.isExcluyente());
+        }
     }
 
     /**
