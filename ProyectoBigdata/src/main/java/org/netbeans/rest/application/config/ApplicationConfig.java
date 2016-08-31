@@ -20,7 +20,6 @@ public class ApplicationConfig extends Application {
     }
     
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(NoticiaServicio.class);resources.add(UnidadAcademicaServicio.class);resources.add(FeedsServicio.class);resources.add(EventoServicio.class);
     }
     
 }

@@ -107,6 +107,10 @@ public class FeedsReader {
         String fileName = getXMLName(category, source);
         String xmlPath = getXMLPath(fileName);
 
+        if (filterText == null) {
+            filterText = "";
+        }
+
         String exclude_xquery_strg_ini = "";
         String exclude_xquery_strg_end = "";
         if (excludes) {
@@ -183,10 +187,10 @@ public class FeedsReader {
             String title = mTitles.group(1);
 
             if (excludes) {
-                if (!title.contains(filterText) || filterText == null) {
+                if (filterText == null || !title.contains(filterText)) {
                     feeds.add(new Feed(category, source, cleanTitle(title), null, null));
                 }
-            } else if (title.contains(filterText) || filterText == null) {
+            } else if (filterText == null || title.contains(filterText)) {
                 feeds.add(new Feed(category, source, cleanTitle(title), null, null));
             }
         }
@@ -198,6 +202,10 @@ public class FeedsReader {
         for (String[] feed : URLS) {
             loadXmlFeed(feed[CATEGORY], feed[SOURCE], feed[URL]);
         }
+    }
+    
+    public List<Feed> getAllFeeds() throws IOException, XQException{
+        return filterFeedsRegex(ALL_CATEGORIES, null, true);
     }
 
     public List<Feed> filterFeedsXquery(String category, String feedProperty, String filterText, boolean excludes) throws IOException, XQException {

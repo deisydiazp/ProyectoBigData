@@ -1,12 +1,10 @@
 package co.edu.uniandes.bigdata.ProyectoBigData.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
-* @generated
-*/
+ * @generated
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FeedsDTO {
 
@@ -17,9 +15,7 @@ public class FeedsDTO {
         this.id = id;
     }
 
-    
-    
-	private Long id;
+    private Long id;
 
     public Long getId() {
         return id;
@@ -28,99 +24,100 @@ public class FeedsDTO {
     public void setId(Long id) {
         this.id = id;
     }
-	
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     private String categoria;
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     private String fuente;
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     private String titulo;
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     private String url;
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     private String publicado;
-    
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public String getCategoria() {
         return this.categoria;
     }
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public String getFuente() {
         return this.fuente;
     }
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public void setFuente(String fuente) {
         this.fuente = fuente;
     }
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public String getTitulo() {
         return this.titulo;
     }
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public String getUrl() {
         return this.url;
     }
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public void setUrl(String url) {
         this.url = url;
     }
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public String getPublicado() {
         return this.publicado;
     }
-    
+
     /**
-    * @generated
-    */
+     * @generated
+     */
     public void setPublicado(String publicado) {
         this.publicado = publicado;
     }
-    
-	
+
 }
