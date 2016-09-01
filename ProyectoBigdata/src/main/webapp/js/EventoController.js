@@ -19,6 +19,8 @@ module.controller('EventoCtrl', ['$scope', '$filter', '$http','$location', funct
         });    
     };
 
+    //$scope.listar();
+    
     $scope.listarUnidadAcademica=function(){
         $http.get('./webresources/UnidadAcademica', {})
             .success(function (data, status, headers, config) {
@@ -27,10 +29,10 @@ module.controller('EventoCtrl', ['$scope', '$filter', '$http','$location', funct
                 alert('Error al consultar la informaci\xf3n de unidadAcademica, por favor intente m\xe1s tarde');
         });    
     };
-    $scope.listarUnidadAcademica();
+    //$scope.listarUnidadAcademica();
         
 
-    $scope.listar();
+    
     //guardar
     $scope.nuevo = function () {
         $scope.panelEditar = true;
@@ -74,15 +76,45 @@ module.controller('EventoCtrl', ['$scope', '$filter', '$http','$location', funct
         }
     };
     
-    
     $scope.listarEventos=function(ua){
         $http.get('./webresources/Evento/unidadAcademica/'+ua, {})
             .success(function (data, status, headers, config) {
                 $scope.lista = data;
+                if($scope.lista.length==0){
+                    alert('No se encontraron registros');
+                }
             }).error(function (data, status, headers, config) {
                 alert('Error al consultar la informaci\xf3n, por favor intente m\xe1s tarde');
         });    
     };
     $scope.listarEventos($location.search().ua);
+    
+    
+    $scope.filtroFecha=null;
+    $scope.filtroHora=null;
+    $scope.filtrarParametros = function () {
+        
+            $scope.errores = {};
+            var error = false;
+            var hora = $scope.filtroHora
+            var fecha = $scope.filtroFecha
+            
+            if(hora == null ||  hora== '')
+                hora = 'none'
+            
+            if( fecha == null ||  fecha == '')
+                fecha = 'none'
+            
+            if (error)
+                return;
+            
+            $http.get('./webresources/Evento/filtro/'+fecha+'/'+hora+'/'+$location.search().ua,{})
+            .success(function (data, status, headers, config) {
+                $scope.lista = data;
+            }).error(function (data, status, headers, config) {
+                alert('Error al filtrar datos, por favor intente m\xe1s tarde');
+            });
+        };
+    
     
 }]);

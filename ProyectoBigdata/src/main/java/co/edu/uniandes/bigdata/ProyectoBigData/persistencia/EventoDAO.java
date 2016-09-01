@@ -54,5 +54,24 @@ public class EventoDAO {
 		em.merge(entidad);
 	}
 	
-	
+	public void eliminarEventosDeUnidadAcademica(Long id_unidadAcademica){
+                em.createNativeQuery("delete from Evento where unidadacademica_id = " + id_unidadAcademica);
+        }
+        
+        public List<Evento> obtenerEventosDeUnidadAcademica(Long id_unidadAcademica){
+            return em.createNamedQuery("Evento.obtenerUnidadAcademica").setParameter("ua", id_unidadAcademica).getResultList();
+	}
+        
+        public List<Evento> obtenerEventosPorFiltro(String fecha, String hora, Long id_unidadAcademica){
+            return em.createNamedQuery("Evento.obtenerEventosPorFiltro").
+                setParameter("ua", id_unidadAcademica).
+                setParameter("fecha", fecha).
+                setParameter("hora", hora).getResultList();
+            
+	}
+        
+        public void eliminarEventoTodos(){
+		em.createNamedQuery("Evento.eliminarEventoTodos");
+                //em.remove(Evento.class);
+	}
 }

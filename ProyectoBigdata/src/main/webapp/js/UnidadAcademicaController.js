@@ -62,4 +62,16 @@ module.controller('UnidadAcademicaCtrl', ['$scope', '$filter', '$http', function
             });   
         }
     };
+    
+    $scope.borrarInformacion = function () {
+        $http.get('./webresources/UnidadAcademica/borrarInformacion', {})
+        .success(function (data, status, headers, config) {
+            $scope.lista = data;
+        }).error(function (data, status, headers, config) {
+            alert('Error al actualizar la informaci\xf3n, por favor intente m\xe1s tarde');
+        });     
+    };
+    
 }]);
+
+            

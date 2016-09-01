@@ -61,6 +61,15 @@ public class UnidadAcademicaServicio {
 	public void borrarUnidadAcademica(@PathParam("id") Long id){
 		logica.borrar(id);
 	}
-	
-	
+        
+        /**
+	* @generated
+	*/
+	@GET
+        @Path("/borrarInformacion")
+        public List<UnidadAcademicaDTO> borrarInformacionBD(){
+                logica.borrarInformacionBD();
+		return null;
+	}
+
 }

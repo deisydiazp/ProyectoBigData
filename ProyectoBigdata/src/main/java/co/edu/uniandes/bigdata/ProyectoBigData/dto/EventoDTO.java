@@ -57,12 +57,20 @@ public class EventoDTO {
     */
     private String palabrasClave;
     
-    
     /**
     * @generated
     */
     private UnidadAcademicaDTO unidadAcademica;
     
+    /**
+    * @generated
+    */
+    private String descripcion;
+    
+    /**
+    * @generated
+    */
+    private String enlace;
     /**
     * @generated
     */
@@ -155,18 +163,45 @@ public class EventoDTO {
         this.palabrasClave = palabrasClave;
     }
     
-	/**
-	* @generated
-	*/
-	public UnidadAcademicaDTO getUnidadAcademica() {
-	    return this.unidadAcademica;
-	}
-	
-	/**
-	* @generated
-	*/
-	public void setUnidadAcademica(UnidadAcademicaDTO unidadAcademica) {
-	    this.unidadAcademica = unidadAcademica;
-	}
-	
+    /**
+    * @generated
+    */
+    public UnidadAcademicaDTO getUnidadAcademica() {
+        return this.unidadAcademica;
+    }
+
+    /**
+    * @generated
+    */
+    public void setUnidadAcademica(UnidadAcademicaDTO unidadAcademica) {
+        this.unidadAcademica = unidadAcademica;
+    }
+
+    /**
+    * @generated
+    */
+    public String getDescripcion() {
+        return this.descripcion;
+    }
+
+    /**
+    * @generated
+    */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+    /**
+    * @generated
+    */
+    public String getEnlace() {
+        return this.enlace;
+    }
+
+    /**
+    * @generated
+    */
+    public void setEnlace(String enlace) {
+        this.enlace = enlace;
+    }
 }

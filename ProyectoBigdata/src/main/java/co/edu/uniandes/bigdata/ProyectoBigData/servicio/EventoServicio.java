@@ -66,4 +66,12 @@ public class EventoServicio {
         //return logica.obtenerTodos();
         return logica.crawlerEventos(id);
     }
+    
+    @GET
+    @Path("/filtro/{fecha}/{hora}/{id}")
+    public List<EventoDTO> obtenerEventosFiltro(@PathParam("fecha") String fecha, @PathParam("hora") String hora , @PathParam("id") Long id) {
+        //return logica.obtenerTodos();
+        
+        return logica.obtenerEventosFiltro(fecha,hora,id);
+    }
 }

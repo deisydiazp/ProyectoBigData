@@ -10,7 +10,10 @@ import javax.persistence.*;
 @Entity
 @Table(name="Evento")//, schema="${schema}")
 @NamedQueries({
-	@NamedQuery(name="Evento.obtenerTodos", query="select e from Evento e")
+	@NamedQuery(name="Evento.obtenerTodos", query="select e from Evento e"),
+        @NamedQuery(name="Evento.obtenerUnidadAcademica", query="select e from Evento e where e.unidadAcademica.id=:ua"),
+        @NamedQuery(name="Evento.obtenerEventosPorFiltro", query="select e from Evento e where e.unidadAcademica.id=:ua and (e.fecha=:fecha or e.hora=:hora)"),
+        @NamedQuery(name="Evento.eliminarEventoTodos", query="delete from Evento")
 })
 public class Evento {
 
@@ -40,9 +43,9 @@ public class Evento {
     * @generated
     * 1-1-false
     */
-    @Temporal(TemporalType.DATE)
+    
     //@Column(name = "fecha")
-    private Date fecha;
+    private String fecha;
     
     /**
     * @generated
@@ -65,7 +68,7 @@ public class Evento {
     * 1-1-false
     */
     
-    //@Column(name = "nombreContacto")
+    //@Column(name = "nombrecontacto")
     private String nombreContacto;
     
     /**
@@ -73,7 +76,7 @@ public class Evento {
     * 1-1-false
     */
     
-    //@Column(name = "correoContacto")
+    //@Column(name = "correocontacto")
     private String correoContacto;
     
     /**
@@ -81,9 +84,14 @@ public class Evento {
     * 1-1-false
     */
     
-    //@Column(name = "palabrasClave")
+    //@Column(name = "palabrasclave")
     private String palabrasClave;
     
+    //@Column(name = "descripcion")
+    private String descripcion;
+    
+    //@Column(name = "enlace")
+    private String enlace;
     
     /**
     * @generated
@@ -110,14 +118,14 @@ public class Evento {
     /**
     * @generated
     */
-    public Date getFecha() {
+    public String getFecha() {
         return this.fecha;
     }
     
     /**
     * @generated
     */
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
     
@@ -192,18 +200,42 @@ public class Evento {
     }
     
 	
-	/**
-	* @generated
-	*/
-	public UnidadAcademica getUnidadAcademica() {
-	    return this.unidadAcademica;
-	}
+    /**
+    * @generated
+    */
+    public UnidadAcademica getUnidadAcademica() {
+        return this.unidadAcademica;
+    }
+
+    /**
+    * @generated
+    */
+    public void setUnidadAcademica(UnidadAcademica unidadAcademica) {
+        this.unidadAcademica = unidadAcademica;
+    }
 	
-	/**
-	* @generated
-	*/
-	public void setUnidadAcademica(UnidadAcademica unidadAcademica) {
-	    this.unidadAcademica = unidadAcademica;
-	}
-	
+    /**
+    * @generated
+    */
+    public String getDescripcion() {
+        return this.descripcion;
+    }
+    
+    /**
+    * @generated
+    */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
+     public String getEnlace() {
+        return this.enlace;
+    }
+    
+    /**
+    * @generated
+    */
+    public void setEnlace(String enlace) {
+        this.enlace = enlace;
+    }
 }

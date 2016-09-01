@@ -54,7 +54,7 @@ public class UnidadAcademicaDAO {
 		em.merge(entidad);
 	}
 	
-	public void eliminarUnidadAcademicaTodo(){
+	public void eliminarUnidadAcademicaTodos(){
 		em.createNativeQuery("delete from UnidadAcademica");
 	}
 }

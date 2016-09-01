@@ -8,6 +8,8 @@ import java.util.AbstractList;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.*;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,10 +24,11 @@ import org.jsoup.select.Elements;
   */
 @Stateless
 public class UnidadAcademicaLogica {
-	@EJB
+    @EJB
     private UnidadAcademicaDAO persistencia;
-
-
+    @EJB
+    private EventoDAO persistenciaEv;
+    private static final Logger LOG=Logger.getLogger(UnidadAcademicaLogica.class.getName());
 	
 	/**
 	* @generated
@@ -118,28 +121,52 @@ public class UnidadAcademicaLogica {
 		return dtos;
 	}
 	
-	public List<UnidadAcademicaDTO> crawlerUnidadAcademica (){
-            
-        try {
-            persistencia.eliminarUnidadAcademicaTodo();
-            Document doc = Jsoup.connect("http://www.uniandes.edu.co/institucional/facultades/facultades").get();
-            Elements as = doc.select("ul[class=\"menu_ifactum\"]>li>a");
-            
-            List<UnidadAcademicaDTO> lstUnidades = new ArrayList<UnidadAcademicaDTO>();
-            for(Element a:as){
+        public void borrarInformacionBD (){
+            try {
                 
-                UnidadAcademicaDTO dto=new UnidadAcademicaDTO();
-		dto.setNombre(a.text());
-		dto.setUrl(a.attr("href"));
-                dto = convertirEntidad(persistencia.guardar(convertirDTO(dto)));
-                lstUnidades.add(dto);
+                List<Evento> lstEventos = persistenciaEv.obtenerTodos();
+                for (Evento ev: lstEventos){
+                    persistenciaEv.borrar(ev.getId());
+                }
+                
+                List<UnidadAcademica> lstUnidades = persistencia.obtenerTodos();
+                for (UnidadAcademica ua: lstUnidades){
+                    persistencia.borrar(ua.getId());
+                }
+            } catch (Exception e) {
+            
+                LOG.log(Level.SEVERE, "Error al .... ", e);
             }
             
-            return lstUnidades;
-            
-        } catch (Exception e) {
-            System.out.println("Error UnidadAcademicaLogica.crawlerUnidadAcademica " + e.toString());
         }
-        return null;
+        
+	public List<UnidadAcademicaDTO> crawlerUnidadAcademica (){
+            
+            try {
+
+                List<UnidadAcademicaDTO> lstUnidadesDto = new ArrayList<UnidadAcademicaDTO>();
+                List<UnidadAcademica> lstUnidades = persistencia.obtenerTodos();
+                if(lstUnidades.size() > 0){
+                    lstUnidadesDto = convertirEntidad(lstUnidades);
+                }else{
+
+                    Document doc = Jsoup.connect("http://www.uniandes.edu.co/institucional/facultades/facultades").get();
+                    Elements as = doc.select("ul[class=\"menu_ifactum\"]>li>a");
+
+                    for(Element a:as){
+
+                        UnidadAcademicaDTO dto=new UnidadAcademicaDTO();
+                        dto.setNombre(a.text());
+                        dto.setUrl(a.attr("href"));
+                        dto = convertirEntidad(persistencia.guardar(convertirDTO(dto)));
+                        lstUnidadesDto.add(dto);
+                    }
+                }
+                return lstUnidadesDto;
+
+            } catch (Exception e) {
+                System.out.println("Error UnidadAcademicaLogica.crawlerUnidadAcademica " + e.toString());
+            }
+            return null;
         }
 }
