@@ -34,9 +34,8 @@ module.controller('FeedsCtrl', ['$scope', '$filter', '$http', function ($scope, 
             $scope.datosFormulario.categoria=$('input[name=categoria][checked=checked]').val();
             $scope.datosFormulario.filtroFeed=$('input[name=filtro][checked=checked]').val();
             $scope.datosFormulario.excluyente=$('#excluyente').is(":checked");
-            //$scope.datosFormulario.metodo='Xquery';
             
-            $http.post('./webresources/Feeds/filtro', JSON.stringify($scope.datosFormulario), {}
+            $http.post('./webresources/Feeds/filtroXquery', JSON.stringify($scope.datosFormulario), {}
             ).success(function (data, status, headers, config) {
                 $scope.lista = data;
             }).error(function (data, status, headers, config) {
@@ -55,9 +54,8 @@ module.controller('FeedsCtrl', ['$scope', '$filter', '$http', function ($scope, 
             $scope.datosFormulario.categoria=$('input[name=categoria][checked=checked]').val();
             $scope.datosFormulario.filtroFeed=$('input[name=filtro][checked=checked]').val();
             $scope.datosFormulario.excluyente=$('#excluyente').is(":checked");
-            //$scope.datosFormulario.metodo='Regex';
             
-            $http.post('./webresources/Feeds/filtro', JSON.stringify($scope.datosFormulario), {}
+            $http.post('./webresources/Feeds/filtroRegex', JSON.stringify($scope.datosFormulario), {}
             ).success(function (data, status, headers, config) {
                 $scope.lista = data;
             }).error(function (data, status, headers, config) {

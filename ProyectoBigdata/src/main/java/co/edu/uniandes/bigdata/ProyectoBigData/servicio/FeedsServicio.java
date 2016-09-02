@@ -33,13 +33,18 @@ public class FeedsServicio {
      * @generated
      */
     @POST
-    @Path("/filtro")
-    public List<FeedsDTO> filtrarFeeds(FiltroFeedsDTO filtro ) {
-        if(filtro.getMetodo().equals("Regex")){
-            return logica.obtenerPorFiltroRegex(filtro.getCategoria(), filtro.getTexto(), filtro.isExcluyente());
-        }else {
-            return logica.obtenerPorFiltro(filtro.getCategoria(), filtro.getFiltroFeed(), filtro.getTexto(), filtro.isExcluyente());
-        }
+    @Path("/filtroXquery")
+    public List<FeedsDTO> filtrarFeedsXquery(FiltroFeedsDTO filtro) {
+        return logica.obtenerPorFiltro(filtro.getCategoria(), filtro.getFiltroFeed(), filtro.getTexto(), filtro.isExcluyente());
+    }
+    
+    /**
+     * @generated
+     */
+    @POST
+    @Path("/filtroRegex")
+    public List<FeedsDTO> filtrarFeedsRegex(FiltroFeedsDTO filtro) {
+        return logica.obtenerPorFiltroRegex(filtro.getCategoria(), filtro.getTexto(), filtro.isExcluyente());
     }
 
     /**

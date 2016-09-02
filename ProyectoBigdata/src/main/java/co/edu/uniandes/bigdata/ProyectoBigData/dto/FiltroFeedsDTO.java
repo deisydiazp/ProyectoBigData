@@ -16,15 +16,6 @@ public class FiltroFeedsDTO {
     private String filtroFeed;
     private String texto;
     private boolean excluyente;
-    private String metodo;
-
-    public String getMetodo() {
-        return metodo;
-    }
-
-    public void setMetodo(String metodo) {
-        this.metodo = metodo;
-    }
     
     public String getCategoria() {
         return categoria;

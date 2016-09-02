@@ -181,12 +181,12 @@ public class FeedsReader {
 
         while (mTitles.find()) {
             String title = mTitles.group(1);
-
+          
             if (excludes) {
-                if (!title.contains(filterText) || filterText == null) {
+                if (filterText == null || !title.contains(filterText)) {
                     feeds.add(new Feed(category, source, cleanTitle(title), null, null));
                 }
-            } else if (title.contains(filterText) || filterText == null) {
+            } else if (filterText == null || title.contains(filterText)) {
                 feeds.add(new Feed(category, source, cleanTitle(title), null, null));
             }
         }
@@ -231,7 +231,7 @@ public class FeedsReader {
 
         FeedsReader test = new FeedsReader();
         test.updateFeeds();
-        List<Feed> feeds = test.filterFeedsXquery(ALL_CATEGORIES, "title_description", "money", false);
+        List<Feed> feeds = test.filterFeedsXquery(ALL_CATEGORIES, "title", "food", false);
         //List<Feed> feeds = test.filterFeedsRegex(ALL_CATEGORIES, "the ", true);
 
         for (Iterator<Feed> iterator = feeds.iterator(); iterator.hasNext();) {
