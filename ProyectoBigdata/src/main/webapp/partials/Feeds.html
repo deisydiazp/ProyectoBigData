@@ -1,40 +1,44 @@
-			
+<div style="text-align: right; background-image:url(images/bannerBackground.jpg); background-repeat: repeat; "><img src="images/bannerNoticias.jpg" alt=""></div>			
 <div class="panel panel-primary" ng-hide="panelEditar">
-    <div class="panel-heading">Parametrizaci&oacute;n de Feeds</div>
+    <div class="panel-heading">Noticias disponibles</div>
     <div class="panel-body">
         <form role="form" id="formularioFiltrar">
-            <div class="row, form-group col-md-6">
-                <label>Categoria</label>
-                <input type="radio" name="categoria" value="All" ng-checked="true"> Todas / All &emsp;
-                <input type="radio" name="categoria" value="Business"> Negocios / Business &emsp;
-                <input type="radio" name="categoria" value="Tech"> Tecnología / Tech &emsp;
-                <input type="radio" name="categoria" value="World"> Mundo / World
-            </div>
-            <div class="row, form-group col-md-6">
-                <label>Filtro</label>
-                <input type="radio" name="filtro" value="title"> Titulo &emsp;
-                <input type="radio" name="filtro" value="description"> Descripción &emsp;
-                <input type="radio" name="filtro" value="title_description" ng-checked="true"> Titulo y descripción
-            </div>
-            <div class="row, form-group col-md-6">
-                <input id="titulo" 
+            
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <label>Filtar noticias por:</label><br><br>
+                    <label>Categoría:</label>&nbsp;&nbsp;
+                    <input type="radio" name="categoria" value="All" ng-checked="true"> Todas/All &nbsp;&nbsp;
+                    <input type="radio" name="categoria" value="Business"> Negocios/Business &nbsp;&nbsp;
+                    <input type="radio" name="categoria" value="Tech"> Tecnología/Tech &nbsp;&nbsp;
+                    <input type="radio" name="categoria" value="World"> Mundo/World
+                    <br>
+                   <label> Texto en:</label>&nbsp;&nbsp;
+                    <input type="radio" name="filtro" value="title"> Titulo &nbsp;&nbsp;
+                    <input type="radio" name="filtro" value="description"> Descripción &nbsp;&nbsp;
+                    <input type="radio" name="filtro" value="title_description" ng-checked="true"> Titulo y descripción
+                    <br>
+                    <label>Tipo de Búsqueda:</label>&nbsp;&nbsp;
+                    <input id="excluyente" type="checkbox" ng-model="datosFormulario.excluyente"> Excluye texto &emsp;
+                    <br>
+                    <br>
+                    <input id="titulo" 
                        class="form-control" 
                        type="text"
                        ng-model="datosFormulario.texto"
                        placeholder="Texto de búsqueda"/>
-            </div>
-            <div class="row, form-group col-md-6">
-                <label>Busqueda</label>
-                <input id="excluyente" type="checkbox" ng-model="datosFormulario.excluyente"> Excluye texto &emsp;
-            </div>
-
-            <div class="btn-group">
-                <button type="button" class="btn btn-default" ng-click="filtrarXQuery()">Filtrar XQuery</button>
-                <button type="button" class="btn btn-default" ng-click="filtrarRegex()">Filtrar RegEx</button>
-            </div>
+                    <br>
+                    <div style="width: 100%; text-align: right">
+                        <button type="button" class="btn btn-default" ng-click="filtrarXQuery()">Filtrar XQuery</button>
+                        <button type="button" class="btn btn-default" ng-click="filtrarRegex()">Filtrar RegEx</button>
+                    </div>
+                </div>
+                <div class="col-md-2"></div> 
+                <div class="col-md-12">
+                    <hr><br>
+                </div>
         </form>
-
-
+        
         <table class="resultados table table-striped">
             <tr>
                 <th>
