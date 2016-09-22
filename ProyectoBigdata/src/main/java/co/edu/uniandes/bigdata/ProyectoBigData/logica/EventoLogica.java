@@ -247,7 +247,7 @@ public class EventoLogica {
             Document docEventos = null;
             
             try {
-                
+                System.out.println("URLLLLLLLLLLLLLLLLLLLLLLL*********" + url);
                 docEventos = Jsoup.connect(url).timeout(30*1000).get();
             }
             catch (SocketTimeoutException ex){
@@ -405,13 +405,22 @@ public class EventoLogica {
                         }
                         
                         if(informacion.select("span[class*=\"hf_event\"]").first() != null){
-                            fecha = informacion.select("span[class*=\"hf_event\"]").first().text();
+                            String auxFecha = informacion.select("span[class*=\"hf_event\"]").first().text().split("\\|")[1].trim();
+                            fecha = auxFecha.split(" ")[3] + "-" + convertirMeses(auxFecha.split(" ")[2]) + "-" + auxFecha.split(" ")[1];
+                            hora = informacion.select("span[class*=\"hf_event\"]").first().text().split("\\|")[0].trim();
+                            if(hora.split(":").length > 1){
+                                String auxHoraIzq = hora.split(":")[0].trim();
+                                auxHoraIzq = auxHoraIzq.substring(auxHoraIzq.length()-2, auxHoraIzq.length());
+                                String auxHoraDer = hora.split(":")[1].trim();
+                                auxHoraDer = auxHoraDer.substring(0,2);
+                                hora = auxHoraIzq + ":" + auxHoraDer;
+                            }
                         }
                             
                         descripcion = informacion.text().replace(nombre, "").replace(fecha,"").trim();
                         
                         if(informacion.select("a[class*=\"ev_link_row\"]").first() != null){
-                            enlace = informacion.select("a[class*=\"ev_link_row\"]").first().text();
+                            enlace = armarUrl(urlFacultad,informacion.select("a[class*=\"ev_link_row\"]").first().attr("href"));
                         }
                                 
                         eventoDto = new EventoDTO();
@@ -447,11 +456,20 @@ public class EventoLogica {
                             Elements divDescripcion = tablaDescripcion.select("div");
                             for(Element div:divDescripcion){
                                 descripcion += div.text();
-                                eventoDto.setDescripcion(descripcion);
-                                eventoDto.setEnlace(url);
-                                lstEventos.add(eventoDto);
-                                lstTitulos.add(eventoDto.getNombre());
                             }
+                            eventoDto = new EventoDTO();
+                            eventoDto.setNombre(nombre);
+                            eventoDto.setFecha(fecha);
+                            eventoDto.setDescripcion(descripcion);
+                            eventoDto.setEnlace(url);
+                            eventoDto.setPalabrasClave(palabrasClave);
+                            eventoDto.setLugar(lugar);
+                            eventoDto.setHora(hora);
+                            eventoDto.setNombreContacto(nombreContacto);
+                            eventoDto.setCorreoContacto(correoContacto);
+                        
+                            lstEventos.add(eventoDto);
+                            lstTitulos.add(eventoDto.getNombre());
                         }
                         
                     }
