@@ -51,12 +51,12 @@ var zoomCall = undefined;
 
 
 // -------------------------------------------------------------------
-
+var imagenPersona;
 // Do the stuff -- to be called after D3.js has loaded
-function D3ok() {
+function D3ok(textoJson) {
   // Some constants
-  var WIDTH = 960,
-      HEIGHT = 600,
+  var WIDTH = 1000,
+      HEIGHT = 800,
       SHOW_THRESHOLD = 2.5;
 
   // Variables keeping graph state
@@ -83,6 +83,8 @@ function D3ok() {
     .charge(-320)
     .size( [WIDTH, HEIGHT] )
     .linkStrength( function(d,idx) { return d.weight; } );
+
+  d3.select("svg").remove();   
 
   // Add to the page the SVG element that will contain the movie network
   var svg = d3.select("#movieNetwork").append("svg:svg")
@@ -154,11 +156,12 @@ function D3ok() {
   /* Compose the content for the panel with movie details.
      Parameters: the node data, and the array containing all nodes
   */
-  function getMovieInfo( n, nodeArray ) {
+  function getMovieInfo( n ) {
+      
     info = '<div id="cover">';
 	info += '	<div style="float:left; width:40%">';
 				if( n.cover )
-					info += '<img class="cover" height="300" width="200" src="' + n.cover + '" title="' + n.name + '"/>';
+					info += '<img id="imagenPersona" class="cover" height="300" width="200" src="' + imagenPersona + '" title="' + n.name + '"/>';
 				else
 					info += '<div class=t style="float: right">' + n.name + '</div>';
 	info += '	</div>';
@@ -192,10 +195,9 @@ function D3ok() {
 
   // *************************************************************************
 
-  d3.json(
-    './movie-network-25-7-3.json',	
-    function(data) {
+    function draw(data) {
 		// Declare the variables pointing to the node & link arrays
+                
 		var nodeArray = data.nodes;
 		var linkArray = data.links;
                 
@@ -232,7 +234,7 @@ function D3ok() {
     // links: simple lines
     var graphLinks = networkGraph.append('svg:g').attr('class','grp gLinks')
       .selectAll("line")
-      .data(linkArray, function(d) {return d.source.id+'-'+d.target.id;} )
+      .data(linkArray, function(d) { return d.source.id+'-'+d.target.id;} )
       .enter().append("line")
       .style('stroke-width', function(d) { return edge_width(d.weight);} )
       .attr("class", "link");
@@ -244,6 +246,7 @@ function D3ok() {
       .enter().append("svg:circle")
       .attr('id', function(d) { return "c" + d.index; } )
       .attr('class', function(d) { return 'node level'+d.level;} )
+      .attr('style', function(d) { return 'fill:'+d.color;} )
       .attr('r', function(d) { return node_size(d.score || 3); } )
       .attr('pointer-events', 'all')
       //.on("click", function(d) { highlightGraphNode(d,true,this); } )    
@@ -347,9 +350,11 @@ function D3ok() {
      */
     function showMoviePanel( node ) {
       // Fill it and display the panel
-      movieInfoDiv
-	.html( getMovieInfo(node,nodeArray) )
-	.attr("class","panel_on");
+        callWikipediaAPI(node.name); 
+        
+        movieInfoDiv
+            .html( getMovieInfo(node) )
+            .attr("class","panel_on");
     }
 
 	    
@@ -462,6 +467,32 @@ function D3ok() {
     mid = getQStringParameterByName('id')
     if( mid != null )
       clearAndSelect( mid );
-  });
-
+  }
+  
+    draw(textoJson);
 } // end of D3ok()
+
+var wikipediaHTMLResult = function(data) {
+    try {
+        imagenPersona = './images/imagenNoDisponible.png';
+        var readData = $('<div>' + data.parse.text["*"] + '</div>');
+        var box = readData.find('.infobox');
+        var imageURL        = null;
+        // Check if page has images
+        if(data.parse.images.length >= 1) {
+            imageURL = box.find('img').first().attr('src');
+            if(imageURL != undefined)
+                imagenPersona = 'https://'+ imageURL;
+        }
+    }
+    catch(err) {
+        imagenPersona = './images/imagenNoDisponible.png';
+    }
+    
+};
+function callWikipediaAPI(wikipediaPage) {
+	// http://www.mediawiki.org/wiki/API:Parsing_wikitext#parse
+    $.getJSON('http://en.wikipedia.org/w/api.php?action=parse&format=json&callback=?', {page:wikipediaPage, prop:'text|images', uselang:'en'}, wikipediaHTMLResult);
+}
+
+

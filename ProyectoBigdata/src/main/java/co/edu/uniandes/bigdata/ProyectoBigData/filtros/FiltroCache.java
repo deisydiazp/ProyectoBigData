@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  * esto no incluye archivos txt, pdf y csv
  * @generated
  */
-@WebFilter(filterName = "FiltroCache", urlPatterns = {"*.html","/partials/*", "/js/*", "/webresources/*"})
+@WebFilter(filterName = "FiltroCache", urlPatterns = {"*.html","*.json","/partials/*", "/js/*", "/webresources/*"})
 public class FiltroCache implements Filter {
     
     public FiltroCache() {

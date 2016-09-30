@@ -22,6 +22,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.EventoServicio.class);
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.FeedsServicio.class);
+        resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.NodoWikiServicio.class);
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.NoticiaServicio.class);
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.UnidadAcademicaServicio.class);
     }
