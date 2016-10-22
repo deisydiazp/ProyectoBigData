@@ -14,3 +14,13 @@ and open the template in the editor.
     display:block;
     border:0px;
 }
+
+.error{
+    color: red;
+    border-color: red;
+}
+
+.error>.form-control{
+    color: red;
+    border-color: red;
+}

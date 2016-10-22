@@ -483,6 +483,7 @@ var wikipediaHTMLResult = function(data) {
             imageURL = box.find('img').first().attr('src');
             if(imageURL != undefined)
                 imagenPersona = 'https://'+ imageURL;
+            $('#imagenPersona').attr('src',imagenPersona);
         }
     }
     catch(err) {

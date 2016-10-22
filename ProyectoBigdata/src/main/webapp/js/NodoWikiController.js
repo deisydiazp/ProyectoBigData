@@ -14,19 +14,30 @@ module.controller('adminNodosWikiCtrl', ['$scope', '$filter', '$http', function 
             $scope.errores = {};
             var error = false;
             
+            if(!$scope.filtroFechaInicial){
+                $scope.errores.filtroFechaInicial = 'Ingrese un rango de fechas';
+                error = true;
+            }
+            
+            if(!$scope.filtroFechaFinal){
+                $scope.errores.filtroFechaFinal = 'Ingrese un rango de fechas';
+                error = true;
+            }
+         
+            if (error)
+                return;
+                       
+            
             var fechaInicial = $scope.filtroFechaInicial.toISOString();
             var fechaFinal = $scope.filtroFechaFinal.toISOString();
             var filtroPais = $scope.filtroPais;
             var filtroNombre = $scope.filtroNombre;
-         
-            if(filtroPais == null ||  filtroPais== '')
+            
+             if(filtroPais == null ||  filtroPais== '')
                 filtroPais = 'seleccionar'
             
             if( filtroNombre == null ||  filtroNombre == '')
                 filtroNombre = 'ninguno'
-         
-            if (error)
-                return;
             
             $http.get('./webresources/NodoWiki/filtro/'+fechaInicial+'/'+fechaFinal+'/'+filtroPais+'/'+filtroNombre,{})
             .success(function (data, status, headers, config) {

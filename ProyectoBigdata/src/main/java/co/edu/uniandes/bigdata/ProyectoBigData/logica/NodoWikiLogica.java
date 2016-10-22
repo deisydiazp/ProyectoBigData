@@ -29,12 +29,13 @@ import java.util.Random;
 @Stateless
 public class NodoWikiLogica {
     
-    public static final String RUTA_ARCHIVO = "C:\\prueba\\part-r-00000";
+    //public static final String RUTA_ARCHIVO = "C:\\prueba\\part-r-00000";
+    public static final String RUTA_ARCHIVO = "/home/estudiante/resultados/salida/part-r-00000";
     private static Map<String, PersonajeDTO> mapa = new HashMap<>();
     
     public String filtarArchivoWiki(String fechaInicial, String fechaFinal, String filtroPais, String filtroNombre){
         
-        try{
+       try{
         
             System.out.println("1. " + System.currentTimeMillis());
             //Test2 t = new Test2();
