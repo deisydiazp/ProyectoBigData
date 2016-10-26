@@ -24,6 +24,7 @@ public class ApplicationConfig extends Application {
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.FeedsServicio.class);
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.NodoWikiServicio.class);
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.NoticiaServicio.class);
+        resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.TwitterServicio.class);
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.UnidadAcademicaServicio.class);
     }
     

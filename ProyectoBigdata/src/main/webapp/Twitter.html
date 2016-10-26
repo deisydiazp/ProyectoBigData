@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="adminTwitter">
+    <head>
+        <title>Twitter Análisis</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link href="./css/main.css" rel="stylesheet">
+        <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        
+        <!-- font dashboard-->
+        <link href="./css/custom.css" rel="stylesheet">
+        <link href="./css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        
+        <!-- font GraphBar -->
+        <link href="./css/barGraph.css" rel="stylesheet">
+        <script type="text/javascript" src="./js/BarGraph.js"></script>
+        
+        <!-- font GraphWordCloud -->
+        <script src="./js/d3.layout.cloud.js" type="text/JavaScript"></script>
+        <script type="text/javascript" src="./js/WordCloud.js"></script>        
+        
+    </head>
+    <body class="nav-md">
+        <div class="content">
+            <div class="content-header">
+                <div class="boton-regresar">
+
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="ng-scope" ng-view=""></div>
+            </div>
+            <div class="content-footer"></div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.1/angular.min.js"></script>
+        <script src="https://code.angularjs.org/1.5.0-rc.1/angular-route.js"></script>
+
+        <script src="./js/TwitterAnalisisApp.js"></script>
+        <script src="./js/TwitterAnalisisController.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    </body>
+</html>
+
