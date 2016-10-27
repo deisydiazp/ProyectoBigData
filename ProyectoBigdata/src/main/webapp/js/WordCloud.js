@@ -1,11 +1,5 @@
 function GraphWordCloud(data, name){
     
-    /*var data = [{text: 2006, frequency: 54},
-        {text: 2007, frequency: 43},
-        {text: 2008, frequency: 41},
-        {text: 2009, frequency: 44},
-        {text: 2010, frequency: 35}];*/
-    
     var wordScale=d3.scale.linear().domain([d3.min(data, function(d) { return d.cantidad; }), d3.max(data, function(d) { return d.cantidad; })]).range([10,170]).clamp(true);
     var fill = d3.scale.category20();
     

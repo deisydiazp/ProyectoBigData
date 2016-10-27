@@ -50,18 +50,21 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                            <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                            Seleccionar Dataset:
+                                            <select ng-model="filtroDataset">
+                                                <option value="1">Debate presidencial Barack Obama - John McCain</option>
+                                                <option value="3">Debate presidencial Partido Republicano</option>
+                                            </select>
+                                            <button type="button" class="btn btn-default" ng-click="cambiarDataset()">Buscar</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    <div id="placeholder33" style="height: 260px; display: none" class="demo-placeholder"></div>
-                                    <div style="width: 100%;">
-                                        <div id="canvas_dahs" class="demo-placeholder" style="width: 100%; height:380px;">
-                                            <div id="barGraphSentAnnoted" style="float:left"></div>
-                                            <div id="barGraphSentAssigned" style="float:left"></div>
-                                        </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12" style="height:380px;">
+                                        <div id="barGraphSentAnnoted"></div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12" style="height:380px;">
+                                        <div id="barGraphSentAssigned"></div>   
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
@@ -82,31 +85,35 @@
                             </div>
                         </div>
 		</div>
-          <br />
+            <br />
 
-		<div class="row">
+            <div class="row">
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                    <div class="x_panel tile fixed_height_450">
+                    <div class="x_panel tile fixed_height_1200">
                         <div class="x_title">
                             <h2>Usuarios <small>Top 20</small></h2>
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-
+                            <div id="graphBarHorizontal"></div>     
                         </div>
                     </div>
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-12">
                     <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="x_panel tile fixed_height_450">
+                                <div class="x_panel tile fixed_height_1200">
                                     <div class="x_title">
                                       <h2>#Hashtag @Person <small>Top 20</small></h2>
                                       <div class="clearfix"></div>
                                     </div>
-                                    <div class="x_content" style="margin:auto">
-                                        <div id="graphWordsTags" style="float:left"></div>     
-                                        <div id="graphWordsPerson" style="float:left"></div>
+                                    <div class="x_content">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div id="graphWordsTags" style="float:left"></div>     
+                                        </div>    
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div id="graphWordsPerson" style="float:left"></div>
+                                        </div>
                                     </div>
                               </div>
                             </div>

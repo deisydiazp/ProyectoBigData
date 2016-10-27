@@ -56,15 +56,40 @@ public class TwitterLogica {
             sentimiento.setCantidad(doc.get("count", Integer.class));
             sentimientos.add(sentimiento);
         }
+        return sentimientos;
+    }
+    
+    public static List<SentimientosTwitter> obtenerCantidadUsuarios(int numDataset, String type){
+        String COLLECTION_NAME = "DatasetAnnoted_" + numDataset;
+        MongoDatabase mongoDB = new MongoClient(DB_SERVER, DB_PORT).getDatabase(DB_NAME);
+        MongoCollection mongoCollection = mongoDB.getCollection(COLLECTION_NAME);
         
-        /*AggregateIterable<Document> result1 = mongoCollection.aggregate(Arrays.asList(
+        AggregateIterable<Document> result = mongoCollection.aggregate(Arrays.asList(
                 new Document("$group", new Document("_id", "$authorNickname").append("count", new Document("$sum", 1))),
                 new Document("$match", new Document("count", new Document("$gt", 15))),
                 new Document("$sort", new Document("count", -1))
-        ));*/
-
+            ));
+        
+        List<SentimientosTwitter> sentimientos = new ArrayList<>();
+        int i = 0;
+        for (Document doc : result) {
+            String nombreUsuario = doc.get("_id", String.class);
+            System.out.println(nombreUsuario + " - " + doc.get("count", Integer.class));
+            if(nombreUsuario.equals(""))
+                continue;
+            SentimientosTwitter sentimiento = new SentimientosTwitter();           
+            sentimiento.setId(nombreUsuario);
+            sentimiento.setCantidad(doc.get("count", Integer.class));
+            sentimientos.add(sentimiento);
+            
+            i++;
+            if(i==20)
+                break;
+        }
+        
         return sentimientos;
     }
+    
     
     public static List<SentimientosTwitter> obtenerCantidadTemas(int numDataset,String type){
         String COLLECTION_NAME = "DatasetAnnoted_" + numDataset;
@@ -112,35 +137,13 @@ public class TwitterLogica {
         }
         
         return sentimientos;
+        
     }
 
-    /*public static void main(String[] args) {
-        String COLLECTION_NAME = "DatasetAnnoted_1";
-        MongoDatabase mongoDB = new MongoClient(DB_SERVER, DB_PORT).getDatabase(DB_NAME);
-        MongoCollection mongoCollection = mongoDB.getCollection(COLLECTION_NAME);
-
-        String map = "function(){\n"
-                + "		var resultados=this.content.match(/(#[^\\s]+)/g);\n"
-                + "		if(resultados)for(var i=0;i<resultados.length;i++){\n"
-                + "			emit(resultados[i],1);\n"
-                + "		}\n"
-                + "	}";
-        String reduce = "function(key, values){\n"
-                + "		return Array.sum(values);\n"
-                + "	}";
-
-        MongoCursor iterador = mongoCollection.mapReduce(map, reduce).filter(new Document("content", new Document("$regex", "#[^\\s]+"))).iterator();
-
-        Map<String, Integer> resultados=new HashMap<>();
-        while (iterador.hasNext()) {
-            Document next = (Document) iterador.next();
-            resultados.put(next.getString("_id"), next.get("value", Double.class).intValue());
-        }
-        resultados=sortHashMapByValues(resultados);
-        for(String key:resultados.keySet()){
-            System.out.println(key+"-"+resultados.get(key));
-        }
-    }*/
+    public static void main(String[] args) {
+    
+        //List<SentimientosTwitter> sentimientos = obtenerCantidadUsuarios();
+    }
 
     public static LinkedHashMap<String, Integer> sortHashMapByValues(
             Map<String, Integer> passedMap) {
