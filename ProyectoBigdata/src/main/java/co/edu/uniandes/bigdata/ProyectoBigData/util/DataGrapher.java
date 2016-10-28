@@ -17,11 +17,13 @@ public class DataGrapher {
     public static final String BARRAS = "BAR";
     public static final String TORTA = "PIE";
     
+    private String graph_name;
     private String graph_type;
     private List<GraphValue> graph_values;
 
-    public DataGrapher(String graph_type) {
+    public DataGrapher(String graph_name, String graph_type) {
         this.graph_type = graph_type;
+        this.graph_name = graph_name;
         graph_values = new ArrayList<>();
     }
 
@@ -70,5 +72,12 @@ public class DataGrapher {
         this.graph_type = graph_type;
     }
 
+    public String getGraph_name() {
+        return graph_name;
+    }
+
+    public void setGraph_name(String graph_name) {
+        this.graph_name = graph_name;
+    }
     
 }

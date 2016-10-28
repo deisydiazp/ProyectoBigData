@@ -5,6 +5,8 @@
  */
 package co.edu.uniandes.bigdata.ProyectoBigData.logica;
 
+import co.edu.uniandes.bigdata.ProyectoBigData.util.DataGrapher;
+import co.edu.uniandes.bigdata.ProyectoBigData.util.GraphValue;
 import co.edu.uniandes.bigdata.ProyectoBigData.util.MongoDataRecord;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -42,7 +44,7 @@ public class TwitterColombiaLogica {
 
     }
     
-
+    // to plot
     public void getInfluencers(String tagString){
         
         int limitResults = 10; 
@@ -56,6 +58,7 @@ public class TwitterColombiaLogica {
         
     }
 
+    // to plot
     public List<MongoDataRecord> getTopTopics(String userString){
         
         int limitResults = 10;
@@ -69,8 +72,8 @@ public class TwitterColombiaLogica {
         
     }
     
-    
-    public List<MongoDataRecord> getTwitterDashboard(String tagString, String userString){
+    // to graphs
+    public List<DataGrapher> getTwitterDashboard(String tagString, String userString){
         
         int limitResults = 10;
         
@@ -82,8 +85,93 @@ public class TwitterColombiaLogica {
             userString = "\".\""; // regex para buscar todos los valores sin filtro
         }
         
-        return getMongoFunctionResults("getGeneralInfo(" + tagString + ", " + userString + ")", limitResults);
+        List<DataGrapher> graphs = new ArrayList<>();
         
+        // get Hashtags(Y) in Time(X)
+        graphs.add(
+            createGrapherDataFromMongoResults("Tweets de temas en el Tiempo", DataGrapher.BARRAS, 
+                getMongoFunctionResults("getDSTopicsInTime(" + tagString + ", " + userString + ")", limitResults), 
+                true, false, false, false, // X_value
+                false, false, true, false, // Y_value
+                true, false, false // value
+            )
+        );
+        graphs.add(
+            createGrapherDataFromMongoResults("Retweets de temas en el Tiempo", DataGrapher.BARRAS, 
+                getMongoFunctionResults("getDSTopicsInTime(" + tagString + ", " + userString + ")", limitResults), 
+                true, false, false, false, // X_value
+                false, false, true, false, // Y_value
+                false, true, false // value
+            )
+        );
+        graphs.add(
+            createGrapherDataFromMongoResults("Seguidores de temas en el Tiempo", DataGrapher.BARRAS, 
+                getMongoFunctionResults("getDSTopicsInTime(" + tagString + ", " + userString + ")", limitResults), 
+                true, false, false, false, // X_value
+                false, false, true, false, // Y_value
+                false, false, true // value
+            )
+        );
+        
+        //getMongoFunctionResults("getGeneralInfo(" + tagString + ", " + userString + ")", limitResults);
+       
+        return graphs;
+    }
+    
+    
+    /*
+    Only 1 true bool per X, Y and values
+    */
+    public DataGrapher createGrapherDataFromMongoResults(String graphName, String graphType, List<MongoDataRecord> mongoResults, 
+            boolean hashtagX, boolean userX, boolean dateX, boolean sentimentX, 
+            boolean hashtagY, boolean userY, boolean dateY, boolean sentimentY,
+            boolean tweetV, boolean retweetV, boolean followersV){
+        
+        DataGrapher dg = new DataGrapher(graphName, graphType);
+        
+        mongoResults.stream().forEach((mdr) -> {
+            
+            //GraphValue values
+            String x_label = null;
+            String y_label = null;
+            float value = 0;
+            
+            // check x_labels
+            if(hashtagX){
+                x_label = mdr.getHashtag();
+            }else if(userX){
+                x_label = mdr.getUser();
+            }else if(dateX){
+                x_label = mdr.getDate();
+            }else if(sentimentX){
+                x_label = mdr.getSentiment();
+            }
+            
+            // check y_labels
+            if(hashtagY){
+                y_label = mdr.getHashtag();
+            }else if(userY){
+                y_label = mdr.getUser();
+            }else if(dateY){
+                y_label = mdr.getDate();
+            }else if(sentimentY){
+                y_label = mdr.getSentiment();
+            }
+            
+            // check values
+            if(tweetV){
+                value = mdr.getTweets();
+            }else if(retweetV){
+                value = mdr.getRetweets();
+            }else if(followersV){
+                value = mdr.getFollowers();
+            }
+            
+            dg.addGraph_value(new GraphValue(x_label, y_label, value));
+            
+        });
+        
+        return dg;
     }
     
     public List<MongoDataRecord> getMongoFunctionResults(String functionStringWithParameters, int limitResults){
