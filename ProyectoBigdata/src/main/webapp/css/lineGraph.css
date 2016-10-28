@@ -1,0 +1,36 @@
+
+.domain {
+        stroke-width: 1px;
+    }
+
+path.line {
+        fill: none;
+        stroke-width: 2px;
+    }
+
+.axis path, .axis line {
+        fill: none;
+        stroke: #ccc;
+        shape-rendering: crispEdges;
+    }
+
+.axis line {
+        stroke: #eee;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+
+.g-baseline line {
+        stroke: #333;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+
+.x.axis text, .y.axis text  {
+        color: #333;
+        font-size: 0.7em;
+    }
+
+.recessionLine text {
+        font-size: 0.7em;
+    } 

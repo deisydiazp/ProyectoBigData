@@ -2,6 +2,7 @@ package co.edu.uniandes.bigdata.ProyectoBigData.servicio;
 
 
 import co.edu.uniandes.bigdata.ProyectoBigData.logica.*;
+import co.edu.uniandes.bigdata.ProyectoBigData.util.DataGrapher;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,8 +23,8 @@ public class TwitterColombiaServicio {
      
     @GET
     @Path("/GetTwitterDashboard")
-    public void getTwitterDashboard() {
-        logica.getTwitterDashboard("#ProcesoDePaz","");
+    public List<DataGrapher> getTwitterDashboard() {
+        return logica.getTwitterDashboard("ReformaTributaria","");
     }
     
     

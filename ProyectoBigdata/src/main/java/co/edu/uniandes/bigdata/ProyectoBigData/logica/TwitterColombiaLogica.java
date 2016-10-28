@@ -13,7 +13,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ejb.Stateless;
@@ -81,10 +85,14 @@ public class TwitterColombiaLogica {
         
         if(tagString == null || tagString.equals("")){
             tagString = "\".\""; // regex para buscar todos los valores sin filtro
+        }else{
+            tagString =  "\"" + tagString + "\"";
         }
         
         if(userString == null || userString.equals("")){
             userString = "\".\""; // regex para buscar todos los valores sin filtro
+        }else{
+            userString =  "\"" + userString + "\"";
         }
         
         List<DataGrapher> graphs = new ArrayList<>();
@@ -180,7 +188,7 @@ public class TwitterColombiaLogica {
         Document docMongo = mongoDB.runCommand(new Document("$eval", functionStringWithParameters));
         String collectionResults = docMongo.getString("retval");
         
-        MongoCursor cursor = mongoDB.getCollection(collectionResults).find().limit(limitResults).iterator();
+        MongoCursor cursor = mongoDB.getCollection(collectionResults).find().sort( new Document("_id.date", 1)).limit(limitResults).iterator();
         List<MongoDataRecord> mongoResults = new ArrayList<>();
         
         while (cursor.hasNext()) {
@@ -219,5 +227,5 @@ public class TwitterColombiaLogica {
             }
         }
     }
-    
+       
 }
