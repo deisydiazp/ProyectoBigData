@@ -1,5 +1,6 @@
 function GraphWordCloud(data, name){
     
+    d3.select("#graphWords" + name + "Svg").remove();
     var wordScale=d3.scale.linear().domain([d3.min(data, function(d) { return d.cantidad; }), d3.max(data, function(d) { return d.cantidad; })]).range([10,170]).clamp(true);
     var fill = d3.scale.category20();
     
@@ -14,6 +15,7 @@ function GraphWordCloud(data, name){
         
         var wordG = d3.select("#graphWords" + name).
             append("svg:svg").
+            attr("id", "graphWords" + name + "Svg").
             attr("width", 400).
             attr("height", 400).
             append("g").

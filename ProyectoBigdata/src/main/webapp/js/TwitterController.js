@@ -10,8 +10,8 @@ module.controller('adminTwitterCtrl', ['$scope', '$filter', '$http', function ($
         var numDataset =$scope.filtroDataset;
         $scope.obtenerDatasetsAnotados(numDataset,"Annoted");
         $scope.obtenerDatasetsAnotados(numDataset,"Assigned");
-        //$scope.obtenerTemasDatasets(numDataset,"Tags");
-        //$scope.obtenerTemasDatasets(numDataset,"Person");
+        $scope.obtenerTemasDatasets(numDataset,"Tags");
+        $scope.obtenerTemasDatasets(numDataset,"Person");
         $scope.obtenerUsuariosDatasets(numDataset,"graphBarHorizontal");
     }    
         
