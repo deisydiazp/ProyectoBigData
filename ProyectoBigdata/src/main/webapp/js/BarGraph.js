@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-function GraphDatasetAnnoted(data, name){
+function GraphDatasetAnnoted(data,name){
     
+    d3.select("#barGraphSent" + name + "Svg").remove();
     var barWidth = 40;
-    var width = ((barWidth + 10) * data.length) + 100;
+    var width = ((barWidth + 10) * data.length) + 30;
     var margin_bootom = 30;
     var margin_left = 40;
     var height = 350;
@@ -18,6 +19,7 @@ function GraphDatasetAnnoted(data, name){
     // add the canvas to the DOM
     var barDemo = d3.select("#barGraphSent" + name).
       append("svg:svg").
+      attr("id", "barGraphSent" + name + "Svg").
       attr("width", width + margin_left).
       attr("height", height + margin_bootom);
       
@@ -44,17 +46,17 @@ function GraphDatasetAnnoted(data, name){
       text(function(datum) { return datum.cantidad;}).
       attr("fill", "white");
 
-      barDemo.selectAll("text.yAxis").
+      barDemo.selectAll("text.label").
       data(data).
       enter().append("svg:text").
       attr("x", function(datum, index) { return x(index) + barWidth + margin_left;; }).
       attr("y", height).
       attr("dx", -barWidth/2).
       attr("text-anchor", "middle").
-      attr("style", "font-size: 12; font-family: Helvetica, sans-serif").
       text(function(datum) { return datum.id;}).
       attr("transform", "translate(0, 18)").
-      attr("class", "yAxis");
+      attr("class", "label").
+      attr("fill", "#1ABB9C").
+      attr("fill-opacity", ".9");
 
-  
 }

@@ -34,4 +34,11 @@ public class TwitterServicio {
         List<SentimientosTwitter> result = logica.obtenerCantidadTemas(numDataset, type);
         return result;
     }
+    
+    @GET
+    @Path("/UsuariosDatasetsAnotados/{numDataset}/{type}")
+    public List<SentimientosTwitter> obtenerCantidadUsuarios(@PathParam("numDataset") int numDataset, @PathParam("type") String type) {
+        List<SentimientosTwitter> result = logica.obtenerCantidadUsuarios(numDataset, type);
+        return result;
+    }
 }

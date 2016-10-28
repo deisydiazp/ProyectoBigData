@@ -16,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.ejb.Stateless;
 import org.bson.Document;
 
 /**
  *
  * @author Rodrigo B
  */
+@Stateless
 public class TwitterColombiaLogica {
     
     // BD Mongo
