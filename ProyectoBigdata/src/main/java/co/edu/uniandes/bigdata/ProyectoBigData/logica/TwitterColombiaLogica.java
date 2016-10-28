@@ -30,8 +30,6 @@ public class TwitterColombiaLogica {
 
     private final MongoDatabase mongoDB;
     private final MongoCollection mongoCollection;
-    
-    private final List<MongoDataRecord> mongoResults = new ArrayList<>();
 
     public TwitterColombiaLogica() {
 
@@ -44,7 +42,37 @@ public class TwitterColombiaLogica {
 
     }
     
-    public void getTwitterDashboard(String tagString, String userString){
+
+    public void getInfluencers(String tagString){
+        
+        int limitResults = 10; 
+        String userString = "\".\""; // regex para buscar todos los valores sin filtro
+        
+        if(tagString == null || tagString.equals("")){
+            tagString = "\".\""; // regex para buscar todos los valores sin filtro
+        }
+        
+        getMongoFunctionResults("getInfluencers(" + tagString + ", " + userString + ")", limitResults);
+        
+    }
+
+    public List<MongoDataRecord> getTopTopics(String userString){
+        
+        int limitResults = 10;
+        String tagString = "\".\""; // regex para buscar todos los valores sin filtro
+        
+        if(userString == null || userString.equals("")){
+            userString = "\".\""; // regex para buscar todos los valores sin filtro
+        }
+        
+        return getMongoFunctionResults("getTopTopics(" + tagString + ", " + userString + ")", limitResults);
+        
+    }
+    
+    
+    public List<MongoDataRecord> getTwitterDashboard(String tagString, String userString){
+        
+        int limitResults = 10;
         
         if(tagString == null || tagString.equals("")){
             tagString = "\".\""; // regex para buscar todos los valores sin filtro
@@ -54,17 +82,16 @@ public class TwitterColombiaLogica {
             userString = "\".\""; // regex para buscar todos los valores sin filtro
         }
         
-        getMongoFunctionResults("getGeneralInfo(" + tagString + ", " + userString + ")");
+        return getMongoFunctionResults("getGeneralInfo(" + tagString + ", " + userString + ")", limitResults);
         
     }
     
-    public void getMongoFunctionResults(String functionStringWithParameters){
+    public List<MongoDataRecord> getMongoFunctionResults(String functionStringWithParameters, int limitResults){
         Document docMongo = mongoDB.runCommand(new Document("$eval", functionStringWithParameters));
         String collectionResults = docMongo.getString("retval");
         
-        mongoResults.clear();
-        
-        MongoCursor cursor = mongoDB.getCollection(collectionResults).find().iterator();
+        MongoCursor cursor = mongoDB.getCollection(collectionResults).find().limit(limitResults).iterator();
+        List<MongoDataRecord> mongoResults = new ArrayList<>();
         
         while (cursor.hasNext()) {
             String resultString = cursor.next().toString();
@@ -83,6 +110,8 @@ public class TwitterColombiaLogica {
             
             System.out.println(hashtag + "|" + user + "|" +  date + "|" +  sentiment + "|" +  tweets + "|" +  retweets + "|" +  followers);
         }
+        
+        return mongoResults;
     }
     
     public String getValueFromMongoResult(String mongoResult, String property, boolean returnsNumberIfNoExists){
