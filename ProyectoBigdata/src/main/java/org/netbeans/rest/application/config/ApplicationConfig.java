@@ -27,6 +27,7 @@ public class ApplicationConfig extends Application {
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.TwitterColombiaServicio.class);
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.TwitterServicio.class);
         resources.add(co.edu.uniandes.bigdata.ProyectoBigData.servicio.UnidadAcademicaServicio.class);
+        //resources.add(org.netbeans.rest.application.config.GsonMessageBodyHandler.class);
     }
     
 }

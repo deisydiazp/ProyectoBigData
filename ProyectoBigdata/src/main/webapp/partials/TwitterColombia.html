@@ -50,11 +50,17 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                            Hastags:
+                                            <input type="text" name="txtHashtag" ng-model="filtroHashtag">    
+                                            Personas:
+                                            <input type="text" name="txtPersonas" ng-model="filtroPersonas">    
+                                            Top Consulta:
+                                            <input type="text" name="txtTopQuery" ng-model="filtroTopQuery">    
                                             <button type="button" class="btn btn-default" ng-click="getTwitterDashboard()">Buscar</button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                <div class="col-md-4 col-sm-4 col-xs-12">
                                     <div style="width: 122px; height: 150px; float: left; text-align: center">
                                         <img src="images/positivo.jpg" alt="">
                                         <span style="font-size: large; color:#1ABB9C">15%</span><br/>
@@ -71,57 +77,17 @@
                                         <span>15500</span>
                                     </div>
                                 </div>
-                                <div class="col-md-9 col-sm-9 col-xs-12 bg-white">
-                                    <table class="table" style="margin-right: 20px">
-                                        <thead>
-                                          <tr>
-                                              <th><span style="font-size:large">#Hastag </span><small>Top 10</small></th>
-                                                <th><span style="font-size:large">@Referencias </span><small>Top 10</small></th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr>
-                                            <td>John</td>
-                                            <td>Doe</td>
-                                          </tr>
-                                          <tr>
-                                            <td>Mary</td>
-                                            <td>Moe</td>
-                                          </tr>
-                                          <tr>
-                                            <td>July</td>
-                                            <td>Dooley</td>
-                                          </tr>
-                                           <tr>
-                                            <td>John</td>
-                                            <td>Doe</td>
-                                          </tr>
-                                          <tr>
-                                            <td>Mary</td>
-                                            <td>Moe</td>
-                                          </tr>
-                                          <tr>
-                                            <td>July</td>
-                                            <td>Dooley</td>
-                                          </tr>
-                                           <tr>
-                                            <td>John</td>
-                                            <td>Doe</td>
-                                          </tr>
-                                          <tr>
-                                            <td>Mary</td>
-                                            <td>Moe</td>
-                                          </tr>
-                                          <tr>
-                                            <td>July</td>
-                                            <td>Dooley</td>
-                                          </tr>
-                                          <tr>
-                                            <td>July</td>
-                                            <td>Dooley</td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
+                                <div class="col-md-4 col-sm-4 col-xs-12 bg-white">
+                                    <h4>#Hashtag</h4>
+                                    <div ng-repeat="row in listTopTopics" class="row">
+                                        <a ng-click="getTwitterDashboard()">{{row.hashtag}}</a> 
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 bg-white">
+                                    <h4>@Personajes</h4>
+                                    <div ng-repeat="row in listInfluencers" class="row">
+                                       {{row.user}}
+                                    </div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

@@ -3,6 +3,7 @@ package co.edu.uniandes.bigdata.ProyectoBigData.servicio;
 
 import co.edu.uniandes.bigdata.ProyectoBigData.logica.*;
 import co.edu.uniandes.bigdata.ProyectoBigData.util.DataGrapher;
+import co.edu.uniandes.bigdata.ProyectoBigData.util.MongoDataRecord;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -22,10 +23,20 @@ public class TwitterColombiaServicio {
     private TwitterColombiaLogica logica;
      
     @GET
-    @Path("/GetTwitterDashboard")
-    public List<DataGrapher> getTwitterDashboard() {
-        return logica.getTwitterDashboard("ReformaTributaria","");
+    @Path("/GetTwitterDashboard/{topics}/{influencers}/{limit}")
+    public List<DataGrapher> getTwitterDashboard(@PathParam("topics") String topics, @PathParam("influencers") String influencers, @PathParam("limit") int limit) {
+        return logica.getTwitterDashboard(topics,influencers, limit);
     }
     
+    @GET
+    @Path("/GetTopTopics")
+    public List<MongoDataRecord> getTopTopics() {
+        return logica.getTopTopics("");
+    }
     
+    @GET
+    @Path("/GetInfluencers")
+    public List<MongoDataRecord> getInfluencers() {
+        return logica.getInfluencers("");
+    }
 }

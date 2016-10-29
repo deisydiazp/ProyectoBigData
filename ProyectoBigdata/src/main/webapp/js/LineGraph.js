@@ -1,6 +1,8 @@
 //http://blockbuilder.org/dougdowson/9734135
 
 function GraphLine(data, name, description){
+    
+    d3.select("#graphLine" + name + "Svg").remove();
     var margin = {top: 15, right: 70, bottom: 50, left: 29},
         width = 675 - margin.left - margin.right,
         height = 450 - margin.top - margin.bottom,
@@ -31,7 +33,8 @@ function GraphLine(data, name, description){
         .x(function(d) { return xScale(d.y_label); })
         .y(function(d) { return yScale(d.value); });
 
-    var svg = d3.select("#graphLine" + name).append("svg")
+    var svg = d3.select("#graphLine" + name).append("svg:svg")
+        .attr("id", "graphLine" + name + "Svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")

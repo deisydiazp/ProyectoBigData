@@ -51,7 +51,7 @@ public class TwitterColombiaLogica {
     }
     
     // to plot
-    public void getInfluencers(String tagString){
+    public List<MongoDataRecord> getInfluencers(String tagString){
         
         int limitResults = 10; 
         String userString = "\".\""; // regex para buscar todos los valores sin filtro
@@ -60,7 +60,7 @@ public class TwitterColombiaLogica {
             tagString = "\".\""; // regex para buscar todos los valores sin filtro
         }
         
-        getMongoFunctionResults("getInfluencers(" + tagString + ", " + userString + ")", limitResults);
+        return getMongoFunctionResults("getInfluencers(" + tagString + ", " + userString + ")", limitResults);
         
     }
 
@@ -79,17 +79,17 @@ public class TwitterColombiaLogica {
     }
     
     // to graphs
-    public List<DataGrapher> getTwitterDashboard(String tagString, String userString){
+    public List<DataGrapher> getTwitterDashboard(String tagString, String userString, int limit){
+            
+        int limitResults = limit;
         
-        int limitResults = 10;
-        
-        if(tagString == null || tagString.equals("")){
+        if(tagString == null || tagString.equals("none")){
             tagString = "\".\""; // regex para buscar todos los valores sin filtro
         }else{
             tagString =  "\"" + tagString + "\"";
         }
         
-        if(userString == null || userString.equals("")){
+        if(userString == null || userString.equals("none")){
             userString = "\".\""; // regex para buscar todos los valores sin filtro
         }else{
             userString =  "\"" + userString + "\"";
