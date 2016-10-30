@@ -9,15 +9,10 @@ import co.edu.uniandes.bigdata.ProyectoBigData.util.DataGrapher;
 import co.edu.uniandes.bigdata.ProyectoBigData.util.GraphValue;
 import co.edu.uniandes.bigdata.ProyectoBigData.util.MongoDataRecord;
 import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ejb.Stateless;
@@ -37,7 +32,6 @@ public class TwitterColombiaLogica {
     public static final String COLLECTION_NAME = "OriginalData";
 
     private final MongoDatabase mongoDB;
-    private final MongoCollection mongoCollection;
 
     public TwitterColombiaLogica() {
 
@@ -46,7 +40,6 @@ public class TwitterColombiaLogica {
         if (mongoDB.getCollection(COLLECTION_NAME) == null) {
             mongoDB.createCollection(COLLECTION_NAME);
         }
-        mongoCollection = mongoDB.getCollection(COLLECTION_NAME);
 
     }
     
@@ -97,7 +90,7 @@ public class TwitterColombiaLogica {
         
         List<DataGrapher> graphs = new ArrayList<>();
         
-        // get Hashtags(Y) in Time(X)
+        // get Hashtags in Time
         graphs.add(
             createGrapherDataFromMongoResults("Tweets de temas en el Tiempo", DataGrapher.BARRAS, 
                 getMongoFunctionResults("getDSTopicsInTime(" + tagString + ", " + userString + ")", limitResults), 
@@ -123,7 +116,41 @@ public class TwitterColombiaLogica {
             )
         );
         
-        //getMongoFunctionResults("getGeneralInfo(" + tagString + ", " + userString + ")", limitResults);
+        // get Users in Time
+        graphs.add(
+            createGrapherDataFromMongoResults("Tweets de usuarios en el Tiempo", DataGrapher.BARRAS, 
+                getMongoFunctionResults("getDSUsersInTime(" + tagString + ", " + userString + ")", limitResults), 
+                false, true, false, false, // X_value
+                false, false, true, false, // Y_value
+                true, false, false // value
+            )
+        );
+        graphs.add(
+            createGrapherDataFromMongoResults("Retweets de usuarios en el Tiempo", DataGrapher.BARRAS, 
+                getMongoFunctionResults("getDSUsersInTime(" + tagString + ", " + userString + ")", limitResults), 
+                false, true, false, false, // X_value
+                false, false, true, false, // Y_value
+                false, true, false // value
+            )
+        );
+        graphs.add(
+            createGrapherDataFromMongoResults("Seguidores de usuarios en el Tiempo", DataGrapher.BARRAS, 
+                getMongoFunctionResults("getDSUsersInTime(" + tagString + ", " + userString + ")", limitResults), 
+                false, true, false, false, // X_value
+                false, false, true, false, // Y_value
+                false, false, true // value
+            )
+        );
+        
+        // get Sentiments
+        graphs.add(
+            createGrapherDataFromMongoResults("Sentimientos por usuario y hashtag", DataGrapher.TORTA, 
+                getMongoFunctionResults("getDSSentiments(" + tagString + ", " + userString + ")", limitResults), 
+                false, false, false, true, // X_value
+                false, false, false, false, // Y_value
+                true, false, false // value
+            )
+        );
        
         return graphs;
     }
