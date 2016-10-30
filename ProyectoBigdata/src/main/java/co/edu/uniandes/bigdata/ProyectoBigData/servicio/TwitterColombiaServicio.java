@@ -4,6 +4,7 @@ package co.edu.uniandes.bigdata.ProyectoBigData.servicio;
 import co.edu.uniandes.bigdata.ProyectoBigData.logica.*;
 import co.edu.uniandes.bigdata.ProyectoBigData.util.DataGrapher;
 import co.edu.uniandes.bigdata.ProyectoBigData.util.MongoDataRecord;
+import com.google.gson.Gson;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,18 +26,21 @@ public class TwitterColombiaServicio {
     @GET
     @Path("/GetTwitterDashboard/{topics}/{influencers}/{limit}")
     public List<DataGrapher> getTwitterDashboard(@PathParam("topics") String topics, @PathParam("influencers") String influencers, @PathParam("limit") int limit) {
-        return logica.getTwitterDashboard(topics,influencers, limit);
+        List<DataGrapher> lista = logica.getTwitterDashboard(topics,influencers, limit);
+        return lista;
     }
     
     @GET
     @Path("/GetTopTopics")
-    public List<MongoDataRecord> getTopTopics() {
-        return logica.getTopTopics("");
+    public String getTopTopics() {
+        List<MongoDataRecord> lista = logica.getTopTopics("");
+        return new Gson().toJson(lista);
     }
     
     @GET
     @Path("/GetInfluencers")
-    public List<MongoDataRecord> getInfluencers() {
-        return logica.getInfluencers("");
+    public String getInfluencers() {
+        List<MongoDataRecord> lista = logica.getInfluencers("");
+        return new Gson().toJson(lista);
     }
 }

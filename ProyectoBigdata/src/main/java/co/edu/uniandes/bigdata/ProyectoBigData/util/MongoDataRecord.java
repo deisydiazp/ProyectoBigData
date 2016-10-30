@@ -11,16 +11,22 @@ package co.edu.uniandes.bigdata.ProyectoBigData.util;
  */
 public class MongoDataRecord {
 
-    String hashtag;
-    String user;
-    String date;
-    String sentiment;
+    private String hashtag;
+    private String user;
+    private String date;
+    private String sentiment;
 
-    float tweets;
-    float retweets;
-    float followers;
+    private Double tweets;
+    private Double retweets;
+    private Double followers;
+    
+    private String week;
 
-    public MongoDataRecord(String hashtag, String user, String date, String sentiment, float tweets, float retweets, float followers) {
+    public MongoDataRecord(){
+        //sin implementacion
+    }
+    
+    public MongoDataRecord(String hashtag, String user, String date, String sentiment, Double tweets, Double retweets, Double followers) {
         this.hashtag = hashtag;
         this.user = user;
         this.date = date;
@@ -46,20 +52,50 @@ public class MongoDataRecord {
         return sentiment;
     }
 
-    public float getTweets() {
+    public Double getTweets() {
         return tweets;
     }
 
-    public float getRetweets() {
+    public Double getRetweets() {
         return retweets;
     }
 
-    public float getFollowers() {
+    public Double getFollowers() {
         return followers;
     }
+
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setSentiment(String sentiment) {
+        this.sentiment = sentiment;
+    }
+
+    public void setTweets(Double tweets) {
+        this.tweets = tweets;
+    }
+
+    public void setRetweets(Double retweets) {
+        this.retweets = retweets;
+    }
+
+    public void setFollowers(Double followers) {
+        this.followers = followers;
+    }
+    
+    
     
     public String getWeek(){
-        String week = "Semana ";
+        week = "Semana ";
         int dia = Integer.parseInt(date);
         
         if(dia < 10){
@@ -75,4 +111,7 @@ public class MongoDataRecord {
         return week;
     }
 
+    public void setWeek(String week) {
+        this.week = week;
+    }
 }

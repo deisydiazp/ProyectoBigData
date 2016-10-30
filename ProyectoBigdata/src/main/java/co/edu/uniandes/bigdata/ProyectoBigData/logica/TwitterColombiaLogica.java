@@ -144,7 +144,7 @@ public class TwitterColombiaLogica {
             //GraphValue values
             String x_label = null;
             String y_label = null;
-            float value = 0;
+            Double value = 0.0;
             
             // check x_labels
             if(hashtagX){
@@ -200,9 +200,9 @@ public class TwitterColombiaLogica {
                 date = getValueFromMongoResult(resultString, "date", false),
                 sentiment = getValueFromMongoResult(resultString, "sentiment", false);
             
-            float tweets = Float.parseFloat(getValueFromMongoResult(resultString, "totalTweets", true)), 
-                retweets = Float.parseFloat(getValueFromMongoResult(resultString, "totalReTweet", true)), 
-                followers = Float.parseFloat(getValueFromMongoResult(resultString, "totalFollowers", true));
+            Double tweets = Double.parseDouble(getValueFromMongoResult(resultString, "totalTweets", true)), 
+                retweets = Double.parseDouble(getValueFromMongoResult(resultString, "totalReTweet", true)), 
+                followers = Double.parseDouble(getValueFromMongoResult(resultString, "totalFollowers", true));
             
             mongoResults.add(new MongoDataRecord(hashtag, user, date, sentiment, tweets, retweets, followers));
             

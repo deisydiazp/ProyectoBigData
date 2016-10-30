@@ -15,9 +15,9 @@ public class GraphValue {
 
     private String y_label;
 
-    private float value;
+    private Double value;
 
-    public GraphValue(String x_label, String y_label, float value) {
+    public GraphValue(String x_label, String y_label, Double value) {
         this.x_label = x_label;
         this.y_label = y_label;
         this.value = value;
@@ -28,7 +28,7 @@ public class GraphValue {
      *
      * @return the value of value
      */
-    public float getValue() {
+    public Double getValue() {
         return value;
     }
 
@@ -37,7 +37,7 @@ public class GraphValue {
      *
      * @param value new value of value
      */
-    public void setValue(float value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
