@@ -8,6 +8,7 @@ module.controller('adminTwitterColombiaCtrl', ['$scope', '$filter', '$http', fun
     $scope.filtroHashtag="";
     $scope.filtroPersonas="";
     $scope.filtroTopQuery=10;
+    
     $scope.getTwitterDashboard = function () {
     
         var topics;
@@ -43,6 +44,22 @@ module.controller('adminTwitterColombiaCtrl', ['$scope', '$filter', '$http', fun
                 GraphLine(data[3].graph_values, "4", "Tweets de usuarios en el Tiempo");
                 GraphLine(data[4].graph_values, "5", "Retweets de usuarios en el Tiempo");
                 GraphLine(data[5].graph_values, "6", "Seguidores de usuarios en el Tiempo");
+                
+                
+                for(var i = 0; i< data[6].graph_values.length; i++){
+                    
+                    if(data[6].graph_values[i].x_label === "Positive")
+                        $("#valuePositive").html(data[6].graph_values[i].value);
+                    
+                    if(data[6].graph_values[i].x_label === "Negative")
+                        $("#valueNegative").html(data[6].graph_values[i].value);
+                    
+                    if(data[6].graph_values[i].x_label === "Neutral")
+                        $("#valueNeutal").html(data[6].graph_values[i].value);
+                        
+                }
+                
+                //porcentajePositivo
             })
             .error(function (data, status, headers, config) {
                 alert('Error al filtrar datos, por favor intente m\xe1s tarde');
