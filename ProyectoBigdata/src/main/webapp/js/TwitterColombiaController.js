@@ -37,9 +37,12 @@ module.controller('adminTwitterColombiaCtrl', ['$scope', '$filter', '$http', fun
 
         $http.get('./webresources/TwitterColombia/GetTwitterDashboard/' + topics + '/' + influencers + '/' + limit, {})
             .success(function (data, status, headers, config) {
-                GraphLine(data[0].graph_values, "Tweets", "Cantidad de Tweets por dia");
-                GraphLine(data[1].graph_values, "Retweets", "Cantidad de Retweets por dia");
-                GraphLine(data[2].graph_values, "Seguidores", "Cantidad de Seguidores");
+                GraphLine(data[0].graph_values, "1", "Tweets de temas en el Tiempo");
+                GraphLine(data[1].graph_values, "2", "Retweets de temas en el Tiempo");
+                GraphLine(data[2].graph_values, "3", "Seguidores de temas en el Tiempo");
+                GraphLine(data[3].graph_values, "4", "Tweets de usuarios en el Tiempo");
+                GraphLine(data[4].graph_values, "5", "Retweets de usuarios en el Tiempo");
+                GraphLine(data[5].graph_values, "6", "Seguidores de usuarios en el Tiempo");
             })
             .error(function (data, status, headers, config) {
                 alert('Error al filtrar datos, por favor intente m\xe1s tarde');
