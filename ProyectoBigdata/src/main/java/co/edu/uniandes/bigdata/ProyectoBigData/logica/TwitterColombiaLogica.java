@@ -71,6 +71,27 @@ public class TwitterColombiaLogica {
         
     }
     
+    public List<MongoDataRecord> getComplexQuery1(){
+        
+        int limitResults = 1000;
+        
+        return getMongoFunctionResults("getComplexQuery1()", limitResults);
+    }
+    
+    public List<MongoDataRecord> getComplexQuery2(){
+        
+        int limitResults = 1000;
+        
+        return getMongoFunctionResults("getComplexQuery2()", limitResults);
+    }
+    
+    public List<MongoDataRecord> getComplexQuery3(){
+        
+        int limitResults = 1000;
+        
+        return getMongoFunctionResults("getComplexQuery3()", limitResults);
+    }
+    
     // to graphs
     public List<DataGrapher> getTwitterDashboard(String tagString, String userString, int limit){
             
