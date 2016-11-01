@@ -27,6 +27,7 @@ public class TwitterColombiaLogica {
     
     // BD Mongo
     public static final String DB_SERVER = "localhost";
+    //public static final String DB_SERVER = "clusterbigdata-59.virtual.uniandes.edu.co";
     public static final int DB_PORT = 27017;
     public static final String DB_NAME = "Grupo10Twitter";
     public static final String COLLECTION_NAME = "OriginalData";

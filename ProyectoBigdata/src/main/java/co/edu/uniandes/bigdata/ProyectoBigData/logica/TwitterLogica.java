@@ -25,11 +25,11 @@ import org.bson.Document;
 public class TwitterLogica {
 
     public static final String DB_SERVER = "localhost";
+    //public static final String DB_SERVER = "clusterbigdata-59.virtual.uniandes.edu.co";
     public static final int DB_PORT = 27017;
-    /*public static final String DB_NAME = "Grupo10Twitter";
-    public static final String COLLECTION_NAME = "OriginalData";*/
-    public static final String DB_NAME = "Grupo10TwitterAnnotated";
-   // public static final String COLLECTION_NAME = "DatasetAnnoted_1";
+    public static final String DB_NAME = "Grupo10Twitter";
+    
+   
 
     public List<SentimientosTwitter> obtenerDatasetsAnotados(int numDataset, String type) {
 
